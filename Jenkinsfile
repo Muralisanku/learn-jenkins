@@ -1,6 +1,11 @@
 pipeline {
-    agent any
+    agent {
+        node {
+            label 'AGENT-1'  #we have given this label name while creating agent
+        }
+    }
 
+    // build
     stages {
         stage('Build') {
             steps {
@@ -16,6 +21,19 @@ pipeline {
             steps {
                 echo 'Deploying....'
             }
+        }
+    }
+
+    // post build
+    post { 
+        always { 
+            echo 'I will always say Hello again!'
+        }
+        failure {
+            echo 'this runs when pipeline is failed, used to send some alerts'
+        }
+        success {
+            echo 'I will say Hello when pipeline is success'
         }
     }
 }
